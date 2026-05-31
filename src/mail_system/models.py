@@ -13,6 +13,9 @@ class Category(str, Enum): # через Enum фиксацию
     SPAM = "spam"
     UNCLASSIFIED = "unclassified"
     FAILED = "failed" # надо придумать что с этим делать
+    FINANCE = "finance" 
+    DOCUMENTATION = "documentation"
+    MEETINGS = "meetings" #немного придумали 
 
 
 #тута поправить потом, черновой вариант классов
