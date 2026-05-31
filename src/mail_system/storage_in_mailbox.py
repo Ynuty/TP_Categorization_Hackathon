@@ -22,3 +22,15 @@ def unique_dest_path(dest_dir: Path, filename: str) -> Path:  # обработк
         if not candidate.exists():
             return candidate
         counter += 1
+
+def move_file(src: Path, dest_dir: Path) -> Path:  # перемещает текущий файл в папку категории из inbox
+    dest_dir.mkdir(parents=True, exist_ok=True)
+    dest = unique_dest_path(dest_dir, src.name)  # изначатльно ставим файлу безопасное (unique) имя
+    shutil.move(str(src), str(dest))
+    return dest
+
+
+def extract_zip(zip_path: Path, target_dir: Path) -> None:  # распапковка zip с письмами
+    target_dir.mkdir(parents=True, exist_ok=True)
+    with zipfile.ZipFile(zip_path, "r") as archive:
+        archive.extractall(target_dir)
