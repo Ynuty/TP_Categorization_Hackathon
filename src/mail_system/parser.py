@@ -111,7 +111,7 @@ class EmailParser: # наш "верховный" класс для парсин�
         if suffix == ".json":
             return parse_json_content(text, path)
 
-        # .txt и файлы без расширения читаем одинаково
+        #4 .txt и файлы без расширения читаем одинаково
         if suffix in ("", ".txt"):
             format = "no_ext" if suffix == "" else "txt"
             return parse_text_content(text, path, format)
