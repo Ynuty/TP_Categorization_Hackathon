@@ -13,16 +13,25 @@ class Rule:
 
 RULES = [
     Rule(
-        Category.SPAM,
+        Category.SPAM, 
+        r"выиграл|iphone|лотере|крипт|заблокирован|click here|бесплатн|зараб|бонус|"
+        r"инвест|доход|переходи",
+        "похоже на спам или фишинг"
+
         
     ),
     Rule(
         Category.MONITORING,
+        r"ALERT:|healthcheck|grafana|jira\.internal|monitoring\.internal|"
+        r"автоматическ|noreply@jira|\[INFO\].*healthcheck",
+        "авто-уведомление от системы",
         
     ),
     Rule(
         Category.INCIDENTS,
-        
+        r"не работает|не отвечает|сбой|критич|зависает|не открывается|"
+        r"не запускается|URGENT|ERR_\d+|"
+        "срочное обращение или инцидент",
     ),
     Rule(
         Category.ACCESS,
