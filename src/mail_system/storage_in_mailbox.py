@@ -34,3 +34,13 @@ def extract_zip(zip_path: Path, target_dir: Path) -> None:  # распапков
     target_dir.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(zip_path, "r") as archive:
         archive.extractall(target_dir)
+
+def copy_inbox_files(source_dir: Path, inbox_dir: Path) -> int:  # копирует массив писем из источника в inbox
+    inbox_dir.mkdir(parents=True, exist_ok=True)
+    count = 0
+    for path in sorted(source_dir.iterdir()):
+        if path.is_file() and not path.name.startswith("."):  # благодаря .startswith() пропускаем скрытые файлы
+            dest = unique_dest_path(inbox_dir, path.name)
+            shutil.copy2(path, dest)
+            count += 1
+    return count  # пользователь видит количество писем для работы
