@@ -44,3 +44,11 @@ def copy_inbox_files(source_dir: Path, inbox_dir: Path) -> int:  # копиру�
             shutil.copy2(path, dest)
             count += 1
     return count  # пользователь видит количество писем для работы
+
+def inbox_is_empty(inbox_dir: Path) -> bool:  # проверка на наличие в inbox обычных (не скрытых) файлов. (цель: не копировать каждый запуск письма, уже лежащие в inbox)
+    if not inbox_dir.exists():
+        return True
+    for path in inbox_dir.iterdir():
+        if path.is_file() and not path.name.startswith("."):
+            return False
+    return True
