@@ -33,14 +33,44 @@ def build_parser():
 def prepare_inbox(mailbox_root, source_dir, zip_path, force):
     ensure_mailbox_layout(mailbox_root)
     inbox_dir = mailbox_root / "inbox"
+    # Отдельный случай для --force
     if force and inbox_dir.exists():
         for f in inbox_dir.iterdir():
             if f.is_file():
                 f.unlink()
 
+    # Разархивация zip файлов
     if zip_path and zip_path.exists():
         extract_zip(zip_path, mailbox_root)
         return
 
+    # Остальные случаи
     if inbox_is_empty(inbox_dir):
         copy_inbox_files(source_dir, inbox_dir)
+
+
+def main():
+    arg = build_parser().parse_args()
+    mailbox_root = Path(arg.mailbox)
+    src_dir = Path(arg.source)
+    if arg.zip:
+        zip_path = Path(arg.zip)
+    else:
+        zip_path = None
+
+    if not (zip_path and zip_path.exists()) and not src_dir.exists():
+        print(f"Ошибка: не найден источник писем ({src_dir})", file=sys.stderr)
+        return 1
+
+    prepare_inbox(mailbox_root, src_dir, zip_path, arg.force)
+    proc = MailProcessor(mailbox_root)
+    stats = proc.run()
+    # Вывод пользователю
+    print(f"OK: обработано {stats.total}, ошибок {stats.failed}")
+    print(f"Лог: {proc.log_path}")
+    print(f"Статистика: {proc.stats_path}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
