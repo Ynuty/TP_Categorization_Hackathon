@@ -1,0 +1,30 @@
+# Виртуальное окружение (у каждого разработчика своё)
+.venv/
+venv/
+env/
+
+# Результат работы программы — пересоздаётся при каждом запуске
+mailbox/
+
+# Кэш Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Кэш pytest (создаётся после pytest tests/)
+.pytest_cache/
+
+# Лог bash-скрипта run.sh
+run.log
+
+# Служебные файлы редакторов и ОС
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Сборки и дистрибутивы (если появятся)
+*.egg-info/
+dist/
+build/
