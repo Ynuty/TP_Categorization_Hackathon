@@ -30,10 +30,25 @@ def move_file(src: Path, dest_dir: Path) -> Path:  # перемещает тек
     return dest
 
 
-def extract_zip(zip_path: Path, target_dir: Path) -> None:  # распапковка zip с письмами
-    target_dir.mkdir(parents=True, exist_ok=True)
+def _flatten_nested_inbox(inbox_dir: Path) -> None:
+    nested = inbox_dir / "inbox"
+    if not nested.is_dir():
+        return
+    for path in nested.iterdir():
+        if path.is_file() and not path.name.startswith("."):
+            dest = unique_dest_path(inbox_dir, path.name)
+            shutil.move(str(path), str(dest))
+    if nested.exists() and not any(nested.iterdir()):
+        nested.rmdir()
+
+
+def extract_zip(zip_path: Path, mailbox_root: Path) -> None:
+    mailbox_root.mkdir(parents=True, exist_ok=True)
+    inbox_dir = mailbox_root / "inbox"
+    inbox_dir.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(zip_path, "r") as archive:
-        archive.extractall(target_dir)
+        archive.extractall(mailbox_root)
+    _flatten_nested_inbox(inbox_dir)
 
 def copy_inbox_files(source_dir: Path, inbox_dir: Path) -> int:  # копирует массив писем из источника в inbox
     inbox_dir.mkdir(parents=True, exist_ok=True)

@@ -7,7 +7,7 @@ from .parser import EmailParser, ParseError
 from .storage_in_mailbox import move_file
 
 
-class MailProcess:
+class MailProcessor:
     def __init__(self, mailbox_root: Path):
         self.mailbox_root = Path(mailbox_root)
         self.inbox_dir = self.mailbox_root / "inbox"
@@ -64,5 +64,3 @@ class MailProcess:
         lines = stats.report_lines()
 
         self.stats_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
-
-        

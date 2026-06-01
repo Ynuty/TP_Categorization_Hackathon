@@ -1,0 +1,6 @@
+Всего обработано: 109
+access: 41
+failed: 4
+incidents: 44
+monitoring: 16
+spam: 4
