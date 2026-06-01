@@ -2,7 +2,7 @@ import pytest
 from pathlib import Path
 
 from mail_system.models import Category
-from mail_system.parsers import EmailParser
+from mail_system.parser import EmailParser
 from mail_system.classificator import RuleBaseClassificator
 
 FIXTURES = Path(__file__).parent / "fixtures"
