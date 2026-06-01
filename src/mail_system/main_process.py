@@ -9,20 +9,60 @@ from .storage_in_mailbox import move_file
 
 class MainProcess:
     def __init__(self):
-        self.inbox_dir = Path("inbox/inbox")
-        self.outputroot = Path("data")
-        self.log_path = self.output_root / "processing.log"
-        self.stats_path = self.output_root / "stats.txt"
+        self.mailbox_root = Path(mailbox_root)
+        self.inbox_dir = self.mailbox_root / "inbox"
+        self.log_path = self.mailbox_root / "processing.log"
+        self.stats_path = self.mailbox_root / "stats.txt"
         self.parser = EmailParser()
-        self.classificator = RuleBaseClassificator()
-        self.logger = setup_logger(self.log_path)
-        self._init_folders()
+        self.classifier = RuleBaseClassificator()
+        self.logger = logs_creator(self.log_path)
 
-    def _init_folders(self):
-        self.output_root.mkdir(parents=True, exist_ok=True)
 
-        for category in Category:
-            (self.output_root / category.value).mkdir(exist_ok=True)
+    def run(self) -> ProcessingStats:
+        stats = ProcessingStats()
+
+        #читаем письма 
+        files = [
+            p for p in sorted(self.inbox_dir.iterdir())
+            if p.is_file() and not p.name.startswith(".")
+        ]
+
+        for path in files:
+            try:
+                email = self.parser.parse(path)
+                result = self.classificator.classify(email)
+                dest_dir = self.mailbox_root / result.category.value
+                move_file(path, dest_dir)
+                stats.add(result.category)
+
+                self.logger.info(
+                    "%s -> %s | %s",
+                    path.name,
+                    result.category.value,
+                    result.reason,
+                )
+            
+            except ParseError as err:
+                dest_dir = self.output_root / Category.FAILED.value
+                if path.exists():
+                    move_file(path, dest_dir)
+
+                stats.add(Category.FAILED)
+
+                self.logger.error("%s -> failed | %s", path.name, err)
+
+        self._write_stats(stats)
+        return stats
+
+    
+    def _write_stats(self, stats: ProcessingStats) -> None:
+        lines = stats.report_lines()
+
+        self.stats_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+            
+
+
 
 
 
