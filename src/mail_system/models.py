@@ -56,4 +56,19 @@ class ProcessingStats:
         lines = [f"Всего обработано: {self.total}"]
         for name, count in sorted(self.by_category.items()):
             lines.append(f"{name}: {count}")
+
+
+        empty = sorted(
+            category.value for category in Category
+            if self.by_category.get(category.value, 0) == 0
+        )
+
+        lines.append("")
+        lines.append("Пустые категории:")
+        if empty:
+            lines.append(", ".join(empty))
+            # или по одной строке: for name in empty: lines.append(f"  {name}: 0")
+        else:
+            lines.append("(нет)")
+            
         return lines
