@@ -4,3 +4,6 @@ failed: 4
 incidents: 44
 monitoring: 16
 spam: 4
+
+Пустые категории:
+documentation, finance, general, meetings, software, unclassified
