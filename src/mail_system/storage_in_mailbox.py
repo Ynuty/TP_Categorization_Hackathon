@@ -3,6 +3,14 @@ import zipfile
 from pathlib import Path
 from .models import Category
 
+
+#будем запускать после каждого запуска - полностью чистит mailbox
+def clear_mailbox(mailbox_root: Path) -> None:
+    mailbox_root = Path(mailbox_root)
+    if mailbox_root.exists():
+        shutil.rmtree(mailbox_root)
+
+
 def ensure_mailbox_layout(mailbox_root: Path) -> None:  # создание структуры папок (если ее еще нет)
     mailbox_root.mkdir(parents=True, exist_ok=True)  # добавление папки и родителей (или не вызывать ошибку, если уже существует)
     (mailbox_root / "inbox").mkdir(exist_ok=True)

@@ -4,12 +4,12 @@ documentation: 5
 failed: 4
 finance: 6
 general: 3
-incidents: 44
+incidents: 45
 meetings: 2
-monitoring: 16
-software: 3
+monitoring: 18
+software: 4
 spam: 4
-unclassified: 7
+unclassified: 3
 
 Пустые категории:
 (нет)
