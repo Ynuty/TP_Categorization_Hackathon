@@ -11,14 +11,12 @@ if str(SRC) not in sys.path:
 
 from mail_system.main_process import MailProcessor
 from mail_system.storage_in_mailbox import (
+    clear_mailbox,
     copy_inbox_files,
     ensure_mailbox_layout,
     extract_zip,
     inbox_is_empty,
 )
-
-from mail_system.models import clear_mailbox
-
 
 def build_parser():
     parser = argparse.ArgumentParser(description="Сортировка входящих писем по категориям")
