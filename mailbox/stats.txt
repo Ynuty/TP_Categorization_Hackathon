@@ -1,9 +1,15 @@
 Всего обработано: 109
-access: 41
+access: 15
+documentation: 5
 failed: 4
+finance: 6
+general: 3
 incidents: 44
+meetings: 2
 monitoring: 16
+software: 3
 spam: 4
+unclassified: 7
 
 Пустые категории:
-documentation, finance, general, meetings, software, unclassified
+(нет)
