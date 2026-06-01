@@ -18,6 +18,7 @@ from mail_system.storage_in_mailbox import (
     inbox_is_empty,
 )
 
+
 def build_parser():
     parser = argparse.ArgumentParser(description="Сортировка входящих писем по категориям")
     parser.add_argument("--mailbox", default="mailbox",
@@ -27,14 +28,13 @@ def build_parser():
     parser.add_argument("--zip", default="", help="путь к zip (необязательно)")
     parser.add_argument("--force", action="store_true",
                         help="очистить inbox и скопировать письма заново")
-    parser.add_argument("--clear", action="store_true",
-                        help="очистить весь mailbox (включая логи и stats) перед запуском")
+    parser.add_argument("--no-clean-mailbox", action="store_true",
+                        help="не удалять mailbox перед запуском (оставить старые письма)")
     return parser
 
 
-
-def prepare_inbox(mailbox_root, source_dir, zip_path, force, clean_mailbox=False):
-    if clean_mailbox: # если указано TRUE, то полностью очищаем mailbox
+def prepare_inbox(mailbox_root, source_dir, zip_path, force, clean_mailbox=True):
+    if clean_mailbox:
         clear_mailbox(mailbox_root)
     ensure_mailbox_layout(mailbox_root)
     inbox_dir = mailbox_root / "inbox"
@@ -67,7 +67,7 @@ def main():
         print(f"Ошибка: не найден источник писем ({src_dir})", file=sys.stderr)
         return 1
 
-    prepare_inbox(mailbox_root, src_dir, zip_path, arg.force, arg.clean_mailbox)
+    prepare_inbox(mailbox_root, src_dir, zip_path, arg.force, clean_mailbox=not arg.no_clean_mailbox)
     proc = MailProcessor(mailbox_root)
     stats = proc.run()
     # Вывод пользователю
