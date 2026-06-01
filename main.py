@@ -9,8 +9,8 @@ SRC = ROOT_DIR / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from mail_system.processor import MailProcessor
-from mail_system.storage import (
+from mail_system.main_process import MailProcessor
+from mail_system.storage_in_mailbox import (
     copy_inbox_files,
     ensure_mailbox_layout,
     extract_zip,
