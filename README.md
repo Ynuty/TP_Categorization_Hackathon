@@ -1,6 +1,51 @@
 # TP_Categorization_Hackathon
 Система автоматической сортировки входящих писем по категориям на основе правил. Письма читаются из папки *inbox*, анализируются и раскладываются по "тематическим" подпапкам, находящимся в папке *mailbox*.
 
+## Установка
+
+```powershell
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+## Запуск
+
+```powershell
+python main.py
+```
+
+или через bash (Git Bash / WSL):
+
+```bash
+bash run.sh
+```
+
+Параметры:
+
+```powershell
+python main.py --mailbox mailbox --source data/inbox/inbox --force
+```
+
+- `--force` — очистить inbox и скопировать письма заново из source
+
+## Результат
+
+После запуска смотри:
+
+- `mailbox/processing.log` — что куда попало и почему
+- `mailbox/stats.txt` — сколько писем в каждой категории
+- папки `mailbox/incidents/`, `mailbox/spam/` и т.д.
+
+## Тесты
+
+```powershell
+pytest
+```
+
+Тесты используют файлы из `tests/fixtures/`, не из `data/inbox/`.
+
+
 ## Структура репозитория
 
 ```text
@@ -63,3 +108,5 @@ TP_Categorization_Hackathon/
     7. documentation (key words - договор, подтвердить, инструкц)
     8. meetings (key words - созвон, встреч, планерк)
     9. general (key words - Re:, Fwd:, вопрос, согласован)
+
+
