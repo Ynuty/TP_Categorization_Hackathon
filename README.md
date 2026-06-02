@@ -45,3 +45,21 @@ TP_Categorization_Hackathon/
     ├── test_classificator.py      # Тесты классификатора
     └── test_parsers.py            # Тесты парсера
 ```
+
+
+
+
+
+**Классификация (classificator.py и rules.py):**
+- RuleBaseClassificator получает объект Email и формирует единую строку поиска (тема - тело - отправитель)
+- Далее последовательно из массива RULES проверяются паттерны и возвращается категория первого совпавшего (категории проверяются по возрастанию приоритетов)
+- Список категорий и некоторых ключевых слов для каждой:
+    1. spam (key words - )
+    2. monitoring (key words - ALERT:, noreply@jira, автоматическ)
+    3. incidents (key words - сбой, не работает, ошибк)
+    4. access (key words - vpn, парол, логин)
+    5. software (key words - обнов, программ, установ)
+    6. finance (key words - зарпл, счет, платеж)
+    7. documentation (key words - договор, подтвердить, инструкц)
+    8. meetings (key words - созвон, встреч, планерк)
+    9. general (key words - Re:, Fwd:, вопрос, согласован)
